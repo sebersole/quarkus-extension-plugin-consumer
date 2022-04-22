@@ -1,5 +1,5 @@
 plugins {
-    id 'io.github.sebersole.quarkus-extension' version '1.0-SNAPSHOT'
+    id 'io.github.sebersole.quarkus-extension' version '0.9.0-SNAPSHOT'
 }
 
 group = 'io.github.sebersole.quarkus'
@@ -9,11 +9,37 @@ repositories {
     mavenCentral()
 }
 
+var quarkusVersion = "2.8.0.Final"
+
 dependencies {
+    quarkusPlatforms platform( "io.quarkus:quarkus-bom:${quarkusVersion}" )
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
+quarkusExtension {
+    name = "Example Quarkus extension"
+    description = "An example of using the `io.github.sebersole.quarkus-extension` plugin for defining a Quarkus extension"
+
+    categories = [ "examples" ]
+}
+
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        runtime {
+            pom {
+                licenses {
+                    license {
+                        name = "The Apache License, Version 2.0"
+                        url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
+                    }
+                }
+            }
+        }
+    }
 }
