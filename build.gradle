@@ -1,5 +1,5 @@
 plugins {
-    id 'io.github.sebersole.quarkus-extension' version '0.9.0-SNAPSHOT'
+    id 'io.github.sebersole.quarkus-extension' version '0.9.3'
 }
 
 group = 'io.github.sebersole.quarkus'
@@ -13,6 +13,8 @@ var quarkusVersion = "2.8.0.Final"
 
 dependencies {
     quarkusPlatforms platform( "io.quarkus:quarkus-bom:${quarkusVersion}" )
+
+    api "org.hibernate.orm:hibernate-core:6.0.0.Final"
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
@@ -31,7 +33,7 @@ test {
 
 publishing {
     publications {
-        runtime {
+        extension {
             pom {
                 licenses {
                     license {
@@ -40,6 +42,19 @@ publishing {
                     }
                 }
             }
+        }
+    }
+}
+
+task showConfigurations {
+    // just outputs some info about all of the defined Configurations so we can
+    // see the ones added by the plugin for spi and deployment
+    doLast {
+        project.configurations.each { configuration ->
+            logger.lifecycle "Configuration : {}", configuration.name
+            logger.lifecycle "   - resolvable : {}", configuration.canBeResolved
+            logger.lifecycle "   - consumable : {}", configuration.canBeConsumed
+            logger.lifecycle "   - description : {}", configuration.description == null ? "{none}" : configuration.description
         }
     }
 }

@@ -12,5 +12,6 @@ public class MyExtensionTest {
 		MyExtensionConfig config;
 		MyExtensionProcessor processor;
 		MyExtensionSpi spi;
+
 	}
 }
